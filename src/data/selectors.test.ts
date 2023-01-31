@@ -28,12 +28,11 @@ const account = {
     },
   ],
 };
+const state = { authorized: true, account };
 
 describe("Selectors", () => {
-  const state = { authorized: true, account };
-
   describe("getWalletByAddress()", () => {
-    test("Should return proper wallet found by it's address", async () => {
+    test("Should return proper wallet found by it's address", () => {
       const wallet = getWalletByAddress(
         state,
         "0x683dEc65dC55D1DED3C91543B818d4f79082De25"
@@ -43,7 +42,7 @@ describe("Selectors", () => {
       expect(wallet).toEqual(account.wallets[1]);
     });
 
-    test("Should return proper wallet found by it's address 2", async () => {
+    test("Should return proper wallet found by it's address 2", () => {
       const wallet = getWalletByAddress(
         state,
         "0xc3e17F69286f7f5155Bc23c5F58913901Cf8DC81"
@@ -53,7 +52,7 @@ describe("Selectors", () => {
       expect(wallet).toEqual(account.wallets[2]);
     });
 
-    test("Should return nothing when called with improper address", async () => {
+    test("Should return nothing when called with improper address", () => {
       const wallet = getWalletByAddress(
         state,
         "0x0000000000000000000000000000000000000000"
@@ -62,7 +61,7 @@ describe("Selectors", () => {
       expect(wallet).toBeUndefined();
     });
 
-    test("Should return nothing when called with improper address 2", async () => {
+    test("Should return nothing when called with improper address 2", () => {
       const wallet = getWalletByAddress(state, "");
 
       expect(wallet).toBeUndefined();

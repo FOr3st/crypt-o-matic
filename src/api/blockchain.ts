@@ -9,17 +9,19 @@ export async function getWalletBalance(address: string) {
   return balanceInEth;
 }
 
+export function createWallet(mnemonic: string, index: number = 0) {
+  const node = getHDNode(mnemonic);
+  const { address, publicKey, privateKey } = node.derivePath(
+    getHDNodePath(index)
+  );
+
+  return { address, publicKey, privateKey };
+}
+
 function getHDNodePath(walletIndex: number = 0) {
   return `m/44'/60'/0'/0/${walletIndex}`;
 }
 
-export function getHDNode(mnemonic: string) {
+function getHDNode(mnemonic: string) {
   return utils.HDNode.fromMnemonic(mnemonic);
-}
-
-export function createWallet(mnemonic: string, index: number = 0) {
-  const node = getHDNode(mnemonic);
-  const { address, publicKey, privateKey } = node.derivePath(getHDNodePath(index));
-
-  return { address, publicKey, privateKey };
 }
