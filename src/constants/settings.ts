@@ -1,0 +1,1 @@
+export const STORAGE_NAME = 'crypt-o-matic';
