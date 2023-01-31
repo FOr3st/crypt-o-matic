@@ -32,3 +32,14 @@ export interface WalletData {
 }
 
 export interface ComponentProps extends PropsWithChildren {}
+
+export type ScreenSize = "small" | "medium" | "big" | "large";
+
+export type LayoutDirection = "vertical" | "horizontal";
+
+export interface ScreenLayout {
+  screenSize: ScreenSize;
+  width: number;
+  height: number;
+  direction: LayoutDirection;
+}

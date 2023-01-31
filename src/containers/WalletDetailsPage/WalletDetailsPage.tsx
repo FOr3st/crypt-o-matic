@@ -8,11 +8,12 @@ import {
   Label,
   PageContainer,
   PasswordDialog,
+  DirectionContainerLayout,
 } from "src/components";
 import { size } from "src/constants";
 import { getWalletByAddress } from "src/data/selectors";
 import styled from "styled-components";
-import { useModelContext } from "src/hooks";
+import { useModelContext, useResponsive } from "src/hooks";
 import { WalletData } from "src/types";
 import { validatePassword } from "src/utils";
 import { canDecryptAccount } from "src/data/utils";
@@ -27,18 +28,26 @@ const ActionsContainer = styled(DirectionContainer)`
   }
 `;
 
-const StyledPageContainer = styled(PageContainer)`
-  position: absolute;
+const StyledDirectionContainer = styled(DirectionContainer)`
+  margin: ${size.xs} 0;
+  overflow: hidden;
+
+  & :not(:last-child) {
+    margin-right: ${size.xs};
+  }
 `;
 
-const PaddedButtonLabel = styled(ButtonLabel)`
-  margin: 0 ${size.xs};
+const StyledPageContainer = styled(PageContainer)`
+  position: absolute;
 `;
 
 export function WalletDetailsPage() {
   const { address } = useParams();
   const context = useModelContext();
   const { state } = context;
+
+  const dimensions = useResponsive();
+  const isMobile = dimensions.screenSize === "small";
 
   const [passwordConfirmed, setPasswordConfirmed] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
@@ -103,6 +112,10 @@ export function WalletDetailsPage() {
     setShowDialog(false);
   }, []);
 
+  const directionLayout: DirectionContainerLayout = isMobile
+    ? "vertical"
+    : "horizontal";
+
   if (!wallet) {
     return (
       <PageContainer>
@@ -124,27 +137,27 @@ export function WalletDetailsPage() {
       <Label size="l">Wallet details</Label>
 
       <DirectionContainer direction="vertical">
-        <DirectionContainer>
+        <StyledDirectionContainer direction={directionLayout}>
           <Label>Address: {address}</Label>
-          <PaddedButtonLabel onClick={handleCopyAddress}>
+          <ButtonLabel onClick={handleCopyAddress}>
             Copy
-          </PaddedButtonLabel>
-        </DirectionContainer>
+          </ButtonLabel>
+        </StyledDirectionContainer>
 
-        <DirectionContainer>
+        <StyledDirectionContainer direction={directionLayout}>
           <Label>Balance: {balance} ETH</Label>
-          <PaddedButtonLabel onClick={refreshBalance}>
+          <ButtonLabel onClick={refreshBalance}>
             Refresh
-          </PaddedButtonLabel>
-        </DirectionContainer>
+          </ButtonLabel>
+        </StyledDirectionContainer>
 
         {passwordConfirmed && (
-          <DirectionContainer>
-            <Label>Private key: {wallet.privateKey}</Label>
-            <PaddedButtonLabel onClick={handleCopyPrivateKey}>
+          <StyledDirectionContainer direction={directionLayout}>
+            <Label title={wallet.privateKey}>Private key: {wallet.privateKey}</Label>
+            <ButtonLabel onClick={handleCopyPrivateKey}>
               Copy
-            </PaddedButtonLabel>
-          </DirectionContainer>
+            </ButtonLabel>
+          </StyledDirectionContainer>
         )}
       </DirectionContainer>
 

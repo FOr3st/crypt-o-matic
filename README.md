@@ -13,16 +13,16 @@ Crypt-o-Matic is a simple wallet keeper that store user's wallets securely. It a
 - Users can generate more wallets. All the wallets are derived from same account and could be restored using mnemonic phrase.
 - Users are able to see a list of generated wallets.
 - Users can look up wallet's private keys by entering their password.
-- Application can display wallet balances in testnet networks (Ehereum, BSB Smart Chain). See more in **Networks**.
+- Application can display wallet balances in blockchain networks (Ehereum, BSB Smart Chain). See more in **Networks**.
 
 ## Workflow
 
-1. On account creation, a mnemonic phrase is generated using https://github.com/bitcoinjs/bip39. All the subsequent wallets are generated from this phrase. Thus this phrase could be used to export user wallets or to restore their account.
+1. On account creation, a *mnemonic phrase* is generated using https://github.com/bitcoinjs/bip39. All the subsequent wallets are generated from this phrase. Thus this phrase could be used to export user wallets or to restore their account.
 ```javascript
 const mnemonic = bip39.generateMnemonic();
 ```
 
-2. The mnemonic phrase is converted to `salt` to generate wallets for the given account with their private, public keys and address (with using of HD wallet API https://github.com/ethereumjs/ethereumjs-wallet).
+2. The mnemonic phrase is converted to *salt* to generate wallets for the given account with their private, public keys and address (with using of HD wallet API https://github.com/ethereumjs/ethereumjs-wallet).
 
 ```javascript
 const seed = bip39.mnemonicToSeed(mnemonic)
@@ -71,5 +71,5 @@ function bscProvider() {
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Useful links
-
+https://metamask.io/
 https://www.wispwisp.com/index.php/2020/12/25/how-metamask-stores-your-wallet-secret/

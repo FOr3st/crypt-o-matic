@@ -2,6 +2,7 @@ import { FC } from "react";
 import { size } from "src/constants";
 import { ComponentProps, WalletData } from "src/types";
 import styled from "styled-components";
+import { Label } from "../Label";
 
 export interface WalletsListProps extends ComponentProps {
   wallets: Array<WalletData>;
@@ -40,7 +41,7 @@ export const WalletsList: FC<WalletsListProps> = ({ wallets, onClick }) => {
       onClick={() => onClick && onClick(wallet)}
       title={wallet.address}
     >
-      {wallet.address}
+      <Label>{wallet.address}</Label>
     </WalletInfo>
   ));
 
