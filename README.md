@@ -1,46 +1,75 @@
-# Getting Started with Create React App
+# Crypt-o-Matic
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Crypt-o-Matic is a simple wallet keeper that store user's wallets securely. It allows to generate, store and fetch wallets.
 
-## Available Scripts
+## Features
+- Application allows to generate wallets compatible with EVM networks such as **BNB Chain** or **Ethereum**.
+- All the wallets are stored securely on the client using similar to [Metamask](https://https://metamask.io/) workflow. See more in **Workflow**.
+- Crypot-o-Matic could run and display wallet balances in different blockhain networks. See more in **Networks**.
+- Application doesn't store user's password.
+
+## Functionality
+- After registration, user account is created with single wallet from random mnemonic phrase.
+- Users can generate more wallets. All the wallets are derived from same account and could be restored using mnemonic phrase.
+- Users are able to see a list of generated wallets.
+- Users can look up wallet's private keys by entering their password.
+- Application can display wallet balances in testnet networks (Ehereum, BSB Smart Chain). See more in **Networks**.
+
+## Workflow
+
+1. On account creation, a mnemonic phrase is generated using https://github.com/bitcoinjs/bip39. All the subsequent wallets are generated from this phrase. Thus this phrase could be used to export user wallets or to restore their account.
+```javascript
+const mnemonic = bip39.generateMnemonic();
+```
+
+2. The mnemonic phrase is converted to `salt` to generate wallets for the given account with their private, public keys and address (with using of HD wallet API https://github.com/ethereumjs/ethereumjs-wallet).
+
+```javascript
+const seed = bip39.mnemonicToSeed(mnemonic)
+const hdWallet = hdkey.fromMasterSeed(seed)
+```
+
+3. User mnemonic phrase and all the derived wallets form `Account` (Metamask calls it Keyring). After account is created, it is encrypted using https://github.com/MetaMask/browser-passworder with user password and stored locally.
+
+4. Once user logs into the application, encrypted account is loaded from the storage, decrypted with `browser-passworder` using user's password and saved to application state. At this point user is able to watch his wallets list and create new accounts by with menomic phrase from decrypted account. Decrypted user account and password are only stored in memory and doesn't go to the storage.
+
+5. In order to export or import user account to any other EVM networks compatible wallet, only mnemonic phrase is needed (as per 1). User password works only on a device level.
+
+## Networks
 
 In the project directory, you can run:
 
-### `yarn start`
+### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Runs the app in the Ethereum main network.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### `npm run start:goerli`
 
-### `yarn test`
+Runs the app in the Ethereum Goerli test network.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `npm run start:sepolia`
 
-### `yarn build`
+Runs the app in the Ethereum Sepolia test network.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Note:** To run application in BNB Smart Chain please uncomment `bscProvider()` function and return it's result from `getProvider()` in `src/api/getProvider.ts`. Running BNB Smart Chain from command line will be addressed later.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```javascript
+export function getProvider() {
+  return bscProvider()
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+function bscProvider() {
+  return new providers.JsonRpcProvider("https://bsc-dataseed.binance.org/", {
+    name: "binance",
+    chainId: 56,
+  });
+}
+```
 
-### `yarn eject`
+## Misc
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Useful links
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+https://www.wispwisp.com/index.php/2020/12/25/how-metamask-stores-your-wallet-secret/
