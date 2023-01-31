@@ -14,6 +14,10 @@ const ActionsContainer = styled(DirectionContainer)`
   margin: ${size.m} 0;
 `;
 
+const PaddedLabel = styled(Label)`
+  margin: ${size.xs};
+`;
+
 export function WelcomePage() {
   const { state } = useModelContext();
 
@@ -25,11 +29,16 @@ export function WelcomePage() {
 
   return (
     <PageContainer>
-      <Label size="xl" align="center">
-        Welcome to Crypt-o-Matic (C) crypto wallet generator!
-      </Label>
+      <PaddedLabel size="xl" align="center">
+        Welcome to Crypt-o-Matic!
+      </PaddedLabel>
 
-      <Label align='center'>Press Proceed button to start</Label>
+      <PaddedLabel size="s" align="center">
+        Crypt-o-Matic (C) is a simple wallet keeper that stores your wallets
+        securely
+      </PaddedLabel>
+
+      <PaddedLabel align="center">Press Proceed button to start</PaddedLabel>
 
       <ActionsContainer>
         <Link to={navigateLink}>

@@ -25,7 +25,10 @@ export function WalletsPage() {
     <PageContainer>
       <Label size="xl">Wallets list</Label>
 
-      <WalletsList wallets={state.account?.wallets || []} onClick={handleWalletClick} />
+      <WalletsList
+        wallets={state.account?.wallets || []}
+        onClick={handleWalletClick}
+      />
 
       <div>
         <Button kind="accent" onClick={handleCreateWallet}>

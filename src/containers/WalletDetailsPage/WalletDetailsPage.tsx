@@ -12,7 +12,6 @@ import {
 import { size } from "src/constants";
 import { getWalletByAddress } from "src/data/selectors";
 import styled from "styled-components";
-// import { PrivateKeyDialog } from "../PrivateKeyDialog";
 import { useModelContext } from "src/hooks";
 import { WalletData } from "src/types";
 import { validatePassword } from "src/utils";
@@ -30,6 +29,10 @@ const ActionsContainer = styled(DirectionContainer)`
 
 const StyledPageContainer = styled(PageContainer)`
   position: absolute;
+`;
+
+const PaddedButtonLabel = styled(ButtonLabel)`
+  margin: 0 ${size.xs};
 `;
 
 export function WalletDetailsPage() {
@@ -68,7 +71,7 @@ export function WalletDetailsPage() {
         return validateError;
       }
 
-      if (!await canDecryptAccount(context, password)) {
+      if (!(await canDecryptAccount(context, password))) {
         return "Wrong password";
       }
     },
@@ -108,7 +111,6 @@ export function WalletDetailsPage() {
     );
   }
 
-  // TODO: add currency
   return (
     <StyledPageContainer>
       {showDialog && (
@@ -124,18 +126,24 @@ export function WalletDetailsPage() {
       <DirectionContainer direction="vertical">
         <DirectionContainer>
           <Label>Address: {address}</Label>
-          <ButtonLabel onClick={handleCopyAddress}>Copy</ButtonLabel>
+          <PaddedButtonLabel onClick={handleCopyAddress}>
+            Copy
+          </PaddedButtonLabel>
         </DirectionContainer>
 
         <DirectionContainer>
           <Label>Balance: {balance} ETH</Label>
-          <ButtonLabel onClick={refreshBalance}>Refresh</ButtonLabel>
+          <PaddedButtonLabel onClick={refreshBalance}>
+            Refresh
+          </PaddedButtonLabel>
         </DirectionContainer>
 
         {passwordConfirmed && (
           <DirectionContainer>
             <Label>Private key: {wallet.privateKey}</Label>
-            <ButtonLabel onClick={handleCopyPrivateKey}>Copy</ButtonLabel>
+            <PaddedButtonLabel onClick={handleCopyPrivateKey}>
+              Copy
+            </PaddedButtonLabel>
           </DirectionContainer>
         )}
       </DirectionContainer>

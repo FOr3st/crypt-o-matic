@@ -8,4 +8,5 @@ export const DirectionContainer = styled.div<{
   display: flex;
   flex-direction: ${({ direction = "horizontal" }) =>
     direction === "horizontal" ? "row" : "column"};
+  
 `;

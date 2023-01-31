@@ -18,6 +18,10 @@ const ActionsContainer = styled(DirectionContainer)`
   margin: ${size.m} 0;
 `;
 
+const PaddedLabel = styled(Label)`
+  margin: ${size.xs};
+`;
+
 export function RegisterPage() {
   const context = useModelContext();
   const {state} = context;
@@ -54,9 +58,13 @@ export function RegisterPage() {
 
   return (
     <PageContainer>
-      <Label size="xl" align="center">
+      <PaddedLabel size="xl" align="center">
         Register page
-      </Label>
+      </PaddedLabel>
+
+      <PaddedLabel size="s" align="center">
+        To start using the appliction, please enter your password
+      </PaddedLabel>
 
       <DirectionContainer direction="vertical">
         <Label>Password</Label>

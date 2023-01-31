@@ -13,6 +13,10 @@ const ActionsContainer = styled(DirectionContainer)`
   margin: ${size.m} 0;
 `;
 
+const PaddedLabel = styled(Label)`
+  margin: ${size.xs};
+`;
+
 export function LoginPage() {
   const context = useModelContext();
   const { state } = context;
@@ -53,9 +57,13 @@ export function LoginPage() {
 
   return (
     <PageContainer>
-      <Label size="xl" align="center">
+      <PaddedLabel size="xl" align="center">
         Login page
-      </Label>
+      </PaddedLabel>
+
+      <PaddedLabel size="s" align="center">
+        Existing account found. Please enter your password to enter
+      </PaddedLabel>
 
       <DirectionContainer direction="vertical">
         <Label>Password</Label>
