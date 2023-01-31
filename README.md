@@ -29,11 +29,15 @@ const seed = bip39.mnemonicToSeed(mnemonic)
 const hdWallet = hdkey.fromMasterSeed(seed)
 ```
 
-3. User mnemonic phrase and all the derived wallets form `Account` (Metamask calls it Keyring). After account is created, it is encrypted using https://github.com/MetaMask/browser-passworder with user password and stored locally.
+3. User mnemonic phrase and all the derived wallets form `Account` (Metamask calls it Keyring). After account is created (or updated), it is encrypted using https://github.com/MetaMask/browser-passworder with user password and saved locally to a storage. User can close the app at any time and return to it later, as his account is safely persisted.
 
-4. Once user logs into the application, encrypted account is loaded from the storage, decrypted with `browser-passworder` using user's password and saved to application state. At this point user is able to watch his wallets list and create new accounts by with menomic phrase from decrypted account. Decrypted user account and password are only stored in memory and doesn't go to the storage.
+4. Every time on application start, the local storage is checked to see if it already contains an enrcypted account.
+- If application already contains the encrypted account, `LoginPage` is shown with request for the user to enter theis password. This password is used against stored encrypted account. If the stored account could be decrypted with the given password, user gets authorized. Then process goes to point 5.
+- If application doesn't contain the encrypted account, user is redirected to `RegisterPage` to create new account. Then process goes to point 1.
 
-5. In order to export or import user account to any other EVM networks compatible wallet, only mnemonic phrase is needed (as per 1). User password works only on a device level.
+5. Once user logs into the application, encrypted account is loaded from the storage, decrypted with `browser-passworder` using user's password and saved to application state. At this point user is able to watch his wallets list and create new accounts by with menomic phrase from decrypted account. Decrypted user account and password are only stored in memory and doesn't go to the storage.
+
+6. In order to export or import user account to any other EVM networks compatible wallet, only mnemonic phrase is needed (as per point 1). User password works only on a device level.
 
 ## Networks
 
